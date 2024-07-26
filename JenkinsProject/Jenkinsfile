@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         // Define environment variables if needed
-        // e.g., TOMCAT_USER = 'admin'
-        // e.g., TOMCAT_PASS = 'password'
+         TOMCAT_USER = 'admin'
+         TOMCAT_PASS = 'password'
     }
 
     parameters {
@@ -49,6 +49,7 @@ pipeline {
                     switch (environment) {
                         case 'dev':
                             //tomcatUrl = 'http://dev-server-url:8080/manager/text/deploy?path=/myapp&update=true'
+                             sh echo "in dev"
                             break
                         case 'qa':
                            // tomcatUrl = 'http://qa-server-url:8080/manager/text/deploy?path=/myapp&update=true'
