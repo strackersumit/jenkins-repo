@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     // Build the application
-                    sh './gradlew clean package'
+                    bat './gradlew clean package'
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     // Run tests
-                    sh './gradlew test'
+                    bat './gradlew test'
                 }
             }
         }
@@ -49,13 +49,13 @@ pipeline {
                     switch (environment) {
                         case 'dev':
                             //tomcatUrl = 'http://dev-server-url:8080/manager/text/deploy?path=/myapp&update=true'
-                             sh echo "in dev"
+                             bat 'echo in dev'
                             break
                         case 'qa':
                            // tomcatUrl = 'http://qa-server-url:8080/manager/text/deploy?path=/myapp&update=true'
                             break
                         case 'master':
-                            sh echo "in master"
+                            bat 'echo in master'
                            // tomcatUrl = 'http://prod-server-url:8080/manager/text/deploy?path=/myapp&update=true'
                             input message: 'Approve deployment to Production?', ok: 'Deploy'
                             break
@@ -72,16 +72,16 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline succeeded'
+            bat 'echo Pipeline succeeded'
         }
 
         failure {
-            echo 'Pipeline failed'
+            bat 'echo Pipeline failed'
         }
 
         always {
             // Cleanup actions, if needed
-            echo 'Pipeline finished'
+            bat 'echo Pipeline finished'
         }
     }
 }
