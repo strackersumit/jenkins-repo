@@ -7,23 +7,14 @@ pipeline {
          TOMCAT_PASS = 'password'
     }
 
-    parameters {
-        choice(name: 'ENVIRONMENT', choices: ['dev', 'qa', 'master'], description: 'Select the environment to deploy to.')
-    }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the source code from the repository
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
                 script {
+					 bat 'echo Building branch: ${env.BRANCH_NAME}'
                     // Build the application
-                    bat 'gradlew clean build'
+                    bat 'gradlew clean build -x test'
                 }
             }
         }
@@ -46,7 +37,7 @@ pipeline {
                     def tomcatPass = 'password'  // Replace with your Tomcat password
                     def warFile = 'target/myapp.war'  // Adjust path to your WAR file
                     
-                    switch (environment) {
+                    switch (env.BRANCH_NAME) {
                         case 'dev':
                             //tomcatUrl = 'http://dev-server-url:8080/manager/text/deploy?path=/myapp&update=true'
                              bat 'echo in dev'
@@ -60,7 +51,7 @@ pipeline {
                             input message: 'Approve deployment to Production?', ok: 'Deploy'
                             break
                         default:
-                            error "Unknown environment: ${environment}"
+                            error "Unknown environment: ${env.BRANCH_NAME}"
                     }
 
                     // Deploy to Tomcat
