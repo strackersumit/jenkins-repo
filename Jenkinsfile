@@ -12,7 +12,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-					 bat 'echo Building branch: '${env.BRANCH_NAME}
+					 def branchName = env.BRANCH_NAME ?: 'unknown'
+					 bat 'echo Building branch: ${branchName}'
                     // Build the application
                     bat 'gradlew clean build -PskipTests=true'
                 }
