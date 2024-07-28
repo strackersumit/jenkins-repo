@@ -12,10 +12,10 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-					 def branchName = env.BRANCH_NAME ?: 'unknown'
-					 bat 'echo Building branch: ${branchName}'
+					  def branchName = env.BRANCH_NAME ?: 'unknown'
+                      bat "echo Building branch: ${branchName}"
                     // Build the application
-                    bat 'gradlew clean build -PskipTests=true'
+                    bat 'gradlew clean build -x test'
                 }
             }
         }
