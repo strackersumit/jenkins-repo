@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     // Build the application
-                    bat 'JenkinsProject/gradlew clean build'
+                    bat 'gradlew clean build'
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     // Run tests
-                    bat 'JenkinsProject/gradlew test'
+                    bat 'gradlew test'
                 }
             }
         }
