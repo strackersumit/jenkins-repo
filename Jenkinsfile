@@ -12,9 +12,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-					 bat 'echo Building branch: ${env.BRANCH_NAME}'
+					 bat 'echo Building branch: '${env.BRANCH_NAME}
                     // Build the application
-                    bat 'gradlew clean build -x test'
+                    bat 'gradlew clean build -PskipTests=true'
                 }
             }
         }
