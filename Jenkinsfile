@@ -32,23 +32,22 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    def environment = params.ENVIRONMENT
                     def tomcatUrl
                     def tomcatUser = 'admin'  // Replace with your Tomcat user
-                    def tomcatPass = 'password'  // Replace with your Tomcat password
-                    def warFile = 'target/myapp.war'  // Adjust path to your WAR file
-                    
+                    def tomcatPass = 'admin'  // Replace with your Tomcat password
+                    def warFile = 'build/libs/jenkins_app.war'  // Adjust path to your WAR file
+                 
                     switch (env.BRANCH_NAME) {
                         case 'dev':
-                            //tomcatUrl = 'http://dev-server-url:8080/manager/text/deploy?path=/myapp&update=true'
-                             bat 'echo in dev'
+                             bat 'echo deploy to dev'
+                             tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app&update=true'
                             break
                         case 'qa':
-                           // tomcatUrl = 'http://qa-server-url:8080/manager/text/deploy?path=/myapp&update=true'
+                            tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app&update=true'
                             break
                         case 'master':
-                            bat 'echo in master'
-                           // tomcatUrl = 'http://prod-server-url:8080/manager/text/deploy?path=/myapp&update=true'
+                            bat 'echo deploy to master'
+                            tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app&update=true'
                             input message: 'Approve deployment to Production?', ok: 'Deploy'
                             break
                         default:
@@ -56,7 +55,7 @@ pipeline {
                     }
 
                     // Deploy to Tomcat
-                   // sh "curl -u ${tomcatUser}:${tomcatPass} -T ${warFile} ${tomcatUrl}"
+                    bat "curl -u ${tomcatUser}:${tomcatPass} -T ${warFile} ${tomcatUrl}"
                 }
             }
         }
