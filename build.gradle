@@ -25,8 +25,23 @@ repositories {
 }
 
 bootWar {
-    archiveFileName.set('jenkins_app.war')
+  dependsOn processResources
+ archiveFileName.set('jenkins_app.war')
 }
+
+processResources {
+    // Define a profile property
+    def profile = project.hasProperty('activeProfile') ? project.property('activeProfile') : 'default'
+
+    // Apply filters to modify the application.properties file
+    filesMatching('application.properties') {
+        filter { String line ->
+            // Replace or add the profile setting
+            line.replaceAll(/spring\.profiles\.active=.*/, "spring.profiles.active=${profile}")
+        }
+    }
+}
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'

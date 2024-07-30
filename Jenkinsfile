@@ -14,8 +14,20 @@ pipeline {
                 script {
 					  def branchName = env.BRANCH_NAME ?: 'unknown'
                       bat "echo Building branch: ${branchName}"
-                    // Build the application
-                    bat 'gradlew clean build -x test'
+                    switch (branchName) {
+                        case 'dev':
+                            bat 'gradlew clean build -PactiveProfile=dev -x test'
+                            break
+                        case 'qa':
+                            bat 'gradlew clean build -PactiveProfile=qa -x test'
+                            break
+                        case 'master':
+                           bat 'gradlew clean build -PactiveProfile=prod -x test'
+                            break
+                        default:
+                            error "Unknown environment: ${env.BRANCH_NAME}"
+                    }
+                    
                 }
             }
         }
