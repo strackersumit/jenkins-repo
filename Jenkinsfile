@@ -40,6 +40,11 @@ pipeline {
                 }
             }
         }
+        stage('Archive Artifacts') {
+            steps {
+                archiveArtifacts artifacts: 'build/libs/jenkins_app.war', allowEmptyArchive: false
+            }
+        }
 
         stage('Deploy') {
             steps {
