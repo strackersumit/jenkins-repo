@@ -57,14 +57,14 @@ pipeline {
                     switch (env.BRANCH_NAME) {
                         case 'dev':
                              bat 'echo deploy to dev'
-                             tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app'
+                             tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app&update=true'
                             break
                         case 'qa':
-                            tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app'
+                            tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app&update=true'
                             break
                         case 'master':
                             bat 'echo deploy to master'
-                            tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app'
+                            tomcatUrl = 'http://localhost:9090/manager/text/deploy?path=/jenkins_app&update=true'
                             input message: 'Approve deployment to Production?', ok: 'Deploy'
                             break
                         default:
